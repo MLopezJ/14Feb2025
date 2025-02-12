@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feb 14 2025</title>
+    <style>
+        /* Fullscreen background */
+        body {
+            margin: 0;
+            height: 100vh;
+            overflow: hidden;
+            background: url('./img/girasoles.png') no-repeat center center/cover;
+            position: relative;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f9f9f9;
+        }
+
+        /* Star container */
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        /* Individual stars */
+        .star {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0;
+            animation: blink 3s infinite alternate;
+        }
+
+        /* Twinkling animation */
+        @keyframes blink {
+            0% { opacity: 0.1; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.3); }
+            100% { opacity: 0.2; transform: scale(1); }
+        }
+
+
+        .envelope-container {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+        .envelope {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: #c0392b;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background-color: #e74c3c;
+            clip-path: polygon(0% 0%, 50% 100%, 100% 0%);
+            transform-origin: top;
+            transition: transform 0.5s ease-in-out;
+        }
+        .letter {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%) translateY(100%);
+            width: 90%;
+            height: 80%;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+            padding: 20px;
+            text-align: center;
+            font-family: Arial, sans-serif;
+            opacity: 0;
+        
+        }
+
+
+        .envelope-container.open .flap {
+            transform: rotateX(180deg);
+        }
+
+        .envelope-container.open .flap {
+            transform: rotateX(180deg);
+        }
+        .envelope-container.open .letter {
+            transform: translateX(-50%) translateY(-10%);
+            opacity: 1;
+        }
+
+
+        /* Initially hide the div */
+        #delayedDiv {
+            opacity: 0;
+            transform: scale(0.8);
+            transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+            display: flex; /* Ensure it's in the flow, but invisible */
+            justify-content: center;
+            align-items: center;
+        }
+
+
+        .recipient {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    font-size: 18px;
+    font-family: Arial, sans-serif;
+    color: white;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+
+/* Align "Dear Inez," to the left */
+.left-text {
+    text-align: left;
+    width: 100%;
+}
+
+/* Center "Will you be my valentine?" */
+.center-text {
+    text-align: center;
+    width: 100%;
+    font-weight: bold;
+}
+
+/* Align "- Mauro" to the right */
+.right-text {
+    text-align: right;
+    width: 100%;
+    font-style: italic;
+}
+
+.text {
+    margin-bottom: 15px;
+    line-height: 1.8;
+}
+
+
+/* Hide the new letter initially */
+.hidden {
+    display: none;
+}
+
+/* Style for the new letter when shown */
+#responseLetter {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%) translateY(100%);
+    width: 90%;
+    height: 50px; /* Smaller height */
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+    padding: 20px;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    opacity: 0;
+}
+
+/* Hide the new "No" letter initially */
+#noResponseLetter {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%) translateY(100%);
+    width: 90%;
+    height: 50px; /* Smaller height */
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+    padding: 20px;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    opacity: 0;
+}
+
+
+        
+    </style>
+</head>
+<body>
+
+    <div class="stars"></div>
+
+    <div id="delayedDiv" class="envelope-container" onclick="this.classList.toggle('open')">
+        <div class="envelope">
+            <h1 class="recipient">To: Inez</h1>
+            <div class="flap"></div>
+        </div>
+        <div class="letter">
+            <div class="left-text text">Dear Inez,</div>
+            <div class="center-text text ">Will you be my valentine?</div>
+            <div class="right-text text ">- Mauro</div>
+
+            <!-- Buttons Container -->
+            <div class="buttons">
+                <button class="yes-btn">Yes</button>
+                <button class="no-btn">No</button>
+            </div>
+
+            <!-- Hidden letter that appears when "Yes" is clicked -->
+            <div class="letter hidden" id="responseLetter">
+                <div class="center-text text">:)</div>
+            </div>
+
+            <!-- Hidden letter that appears when "No" is clicked -->
+            <div class="letter hidden" id="noResponseLetter">
+                <div class="center-text text">:(</div>
+            </div>
+
+
+            
+        </div>
+        
+    </div>
+
+    <script>
+        function createStars(count) {
+            const starsContainer = document.querySelector(".stars");
+            for (let i = 0; i < count; i++) {
+                let star = document.createElement("div");
+                star.classList.add("star");
+
+                // Random positions
+                let x = Math.random() * window.innerWidth;
+                let y = Math.random() * window.innerHeight * 0.3; // Limit stars to the sky area
+
+                // Random animation properties
+                let duration = 2 + Math.random() * 2;
+                let delay = Math.random() * 5;
+
+                star.style.left = `${x}px`;
+                star.style.top = `${y}px`;
+                star.style.animationDuration = `${duration}s`;
+                star.style.animationDelay = `${delay}s`;
+
+                starsContainer.appendChild(star);
+            }
+        }
+
+        createStars(100); // Adjust for density
+    </script>
+
+    <script>
+        // Wait until the page is fully loaded
+        window.onload = function() {
+        // Set a timer for 3000 milliseconds (3 seconds)
+        setTimeout(function() {
+            // Change the style to make the div visible
+            document.getElementById('delayedDiv').style.display = 'block';
+            let delayedDiv = document.getElementById('delayedDiv');
+            delayedDiv.style.opacity = '1';
+            delayedDiv.style.transform = 'scale(1)';
+        }, 2000);
+        };
+    </script>
+
+
+<!--
+
+<script>
+    document.querySelector(".yes-btn").addEventListener("click", function(event) {
+        event.stopPropagation(); // Prevent closing the envelope
+        let responseLetter = document.getElementById("responseLetter");
+        responseLetter.classList.remove("hidden"); // Show the letter
+        responseLetter.style.opacity = "1"; 
+        responseLetter.style.transform = "translateX(-50%) translateY(-10%)";
+    });
+
+    document.querySelector(".envelope-container").addEventListener("click", function() {
+        let responseLetter = document.getElementById("responseLetter");
+        if (!this.classList.contains("open")) {
+            responseLetter.classList.add("hidden"); // Hide the response letter when closed
+            responseLetter.style.opacity = "0"; 
+            responseLetter.style.transform = "translateX(-50%) translateY(100%)"; 
+        }
+    });
+</script>
+-->
+
+
+<script>
+    document.querySelector(".yes-btn").addEventListener("click", function(event) {
+        event.stopPropagation(); // Prevent closing the envelope
+        let responseLetter = document.getElementById("responseLetter");
+        let noResponseLetter = document.getElementById("noResponseLetter");
+
+        // Hide the "No" response if previously clicked
+        noResponseLetter.classList.add("hidden");
+        noResponseLetter.style.opacity = "0";
+        noResponseLetter.style.transform = "translateX(-50%) translateY(100%)";
+
+        // Show the "Yes" response
+        responseLetter.classList.remove("hidden"); 
+        responseLetter.style.opacity = "1"; 
+        responseLetter.style.transform = "translateX(-50%) translateY(-10%)";
+    });
+
+    document.querySelector(".no-btn").addEventListener("click", function(event) {
+        event.stopPropagation(); // Prevent closing the envelope
+        let responseLetter = document.getElementById("responseLetter");
+        let noResponseLetter = document.getElementById("noResponseLetter");
+
+        // Hide the "Yes" response if previously clicked
+        responseLetter.classList.add("hidden");
+        responseLetter.style.opacity = "0";
+        responseLetter.style.transform = "translateX(-50%) translateY(100%)";
+
+        // Show the "No" response
+        noResponseLetter.classList.remove("hidden"); 
+        noResponseLetter.style.opacity = "1"; 
+        noResponseLetter.style.transform = "translateX(-50%) translateY(-10%)";
+    });
+
+    document.querySelector(".envelope-container").addEventListener("click", function() {
+        let responseLetter = document.getElementById("responseLetter");
+        let noResponseLetter = document.getElementById("noResponseLetter");
+
+        if (!this.classList.contains("open")) {
+            responseLetter.classList.add("hidden"); // Hide the "Yes" response
+            responseLetter.style.opacity = "0"; 
+            responseLetter.style.transform = "translateX(-50%) translateY(100%)"; 
+
+            noResponseLetter.classList.add("hidden"); // Hide the "No" response
+            noResponseLetter.style.opacity = "0"; 
+            noResponseLetter.style.transform = "translateX(-50%) translateY(100%)"; 
+        }
+    });
+</script>
+
+
+
+</body>
+</html>
